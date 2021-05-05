@@ -1,0 +1,70 @@
+import { useSelector } from 'react-redux';
+import firebase from '../../config/firebase/firebase';
+import uniqid from 'uniqid';
+import Image from '../../models/back-end-models/image';
+import { store } from '../../redux/store';
+import { 
+  fetchingImages, 
+  imageFetched, 
+  removeImage, 
+  addImage 
+} from '../../redux/fetch-images/actions';
+
+export const uploadImage = (file, title, userId, publicAccess) => {
+  const id = uniqid();
+  const ref = firebase.storage().ref('images/').child(id);
+
+  ref.put(file).then(() => {
+
+    ref.getDownloadURL()
+      .then((downloadUrl) => {
+        const newImage = Image({
+          id: id,
+          title: title,
+          userId: userId,
+          publicAccess: publicAccess,
+          url: downloadUrl,
+          dateAdded: Date.now()
+        })
+        firebase.database().ref('users/' + userId + '/images').push().set(id);
+        firebase.database().ref('images/' + id).set(newImage);
+        store.dispatch(addImage(newImage));
+      });
+  });
+}
+
+export const getImage = (imageId, imageIndex) => {
+  firebase.database().ref('images/' + imageId).once('value').then(snapshot => {
+    const data = snapshot.val();
+    store.dispatch(imageFetched(data, imageIndex));
+    console.log('itshappening again')
+  })
+}
+
+export const getImagesFromIdList = (idList) => {
+  const numImages = idList.length;
+  console.log('getimagesfromIdlist');
+  store.dispatch(fetchingImages(numImages));
+  for(let i = 0; i < numImages; i++){
+    getImage(idList[i], i);
+  }
+}
+
+export const deleteImage = (imageId, imageIndex) => {
+  firebase.database().ref('images/' + imageId).remove();
+  firebase.storage().ref('images/' + imageId).delete();
+  store.dispatch(removeImage(imageIndex));
+}
+
+export const retrieveImagesFromImages = () => {
+  console.log('retreiveingimagesfromImages');
+  firebase.database().ref('images/')
+    .once('value').then( snapshot => {
+      const data = snapshot.val();
+      console.log('data is',data);
+      const imageIds = data ? Object.keys(data) : [];
+      getImagesFromIdList(imageIds);
+    })
+}
+
+/////perhaps error handling

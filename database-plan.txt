@@ -1,0 +1,74 @@
+Talk to steven about :
+- user-parser.js and payload stuff
+- /redux/login/reducer, what is dbref in iintial state used for?
+- what is going on in redux/login/store.js
+- /services/errors both files not quite sure what the supers do or why
+
+
+
+* can a user view other user's content? If so can an unauthorized user view content? 
+- Yes a user can view other's content. Yes an unauthorized user can view content if marked as public
+
+Also can a user decide whether their photos are private or public, or is it public only?
+- yes, it will be something they can mark as public or private.
+
+* how can an user organize their photos? eg in albums? Can you add/remove photos from the albums after its made?
+- Yes, they can. They will be able to remove and add images to these albums as well.
+
+* Can the user provide a description of their photos and/or albums?
+Yes they can do for both. But should be word limit on both
+
+
+Storage
+
+{
+  // I put this images object outside of the users so that it can be accessed for the public for featured images or something
+  // storage for image
+  images: {
+    image1Id,
+    image2Id,
+  },
+}
+
+
+Real Time
+{
+  images: {
+    image1id: {
+      title: '',
+      description: '',
+      authorName: '',
+      userID: '',
+      public: true/false, (this is just in terms of people having access to the image, but childFriendly will allow it to be shown on the featured)
+      storageLink: '',
+      location: '', (this might be linked to a google maps location if I have time)
+      childFriendly: '', (true or false, this is to make it available as a featured image in the front)
+    },
+    image2id: {
+      title: '',
+      description: '',
+      authorName: '',
+      userID: '',
+      public: true/false, (this is just in terms of people having access to the image, but childFriendly will allow it to be shown on the featured)
+      storageLink: '',
+      location: '', (this might be linked to a google maps location if I have time)
+      childFriendly: '', (true or false, this is to make it available as a featured image in the front)
+    }
+  },
+  users: {
+    user1: {
+      id: '',
+      personalInfo: {
+        name: '',
+        email: '',
+        socialtag: '',
+        description: '',
+      },
+      images: {[
+        imageID1,
+        imageID2,
+        imageID3,
+      ]}
+    },
+  }
+}
