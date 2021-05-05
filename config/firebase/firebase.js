@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 
-var firebaseConfig = {
-  apiKey: "AIzaSyDZhqFmt3F6LByqIPScBXsSRgoOOUUB1m8",
+const firebaseConfig = {
+  apiKey: process.env.FIREBASE_API_KEY,
   authDomain: "shopify-be-project.firebaseapp.com",
   databaseURL: "https://shopify-be-project-default-rtdb.firebaseio.com",
   projectId: "shopify-be-project",
