@@ -10,9 +10,12 @@ const ImageTile = ({
   const url = image.url;
 
   return(
-    <div>
+    <div className={styles.mainContainer}>
       <img className={styles.image} src={url}></img>
-      {children}
+      <div>
+        <div>Title: {image.title}</div>
+        {children}
+      </div>
     </div>
   )  
 }

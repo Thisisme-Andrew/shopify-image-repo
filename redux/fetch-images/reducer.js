@@ -19,7 +19,12 @@ export default function reducer(state = imagesInitialState, action) {
     
     case fetchImagesActionTypes.IMAGE_FETCHED: {
       let imagesCopy = [...state.images];
-      imagesCopy[action.imageIndex] = action.image;
+
+      if(!action.image){
+        imagesCopy.splice(imagesCopy.length - 1, 1);
+      }else {
+        imagesCopy[action.imageIndex] = action.image;
+      }
 
       return {
         ...state,

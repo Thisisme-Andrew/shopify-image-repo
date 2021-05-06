@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import LoginVerifier from '../../components/login-verifier/login-verifier';
 import { useSelector } from 'react-redux';
-import { retrieveImagesFromUser } from '../../services/database/user-services';
+import { retrievePublicImagesFromUser } from '../../services/database/user-services';
 import ImageTile from '../../components/image-tile/image-tile';
 import { goToNextPage } from '../../services/routing/redirect-service';
 
 const UserPublicProfile = () => {
   const [userName, setUserName] = useState();
-  const [userEmail, setUserEmail] = useState();
+  const [userEmail, setUserEmail] = useState(null);
   const [imagesDisplay, setImagesDisplay] = useState();
   const images = useSelector(state => state.fetchImages.images);
   const userData = useSelector(state => state.fetchUserData.user);
@@ -16,21 +16,20 @@ const UserPublicProfile = () => {
     if(userData){
       setUserName(userData.personalInfo.name);
       setUserEmail(userData.personalInfo.email);
-      retrieveImagesFromUser(userData.id);
+      retrievePublicImagesFromUser(userData.id);
     }  
   }, [userData]);
 
   useEffect(()=> {
     if(images){
+      console.log('images hereis: ', images);
       setImagesDisplay(
         images.map(image => {
-          console.log('this is what image is', image)
-          if(image && image.publicAccess) {
+          if(image){
             return <ImageTile image={image}/>
           }
           return null;
-        }
-        )
+        })
       );
     }
   }, [images])
@@ -43,7 +42,7 @@ const UserPublicProfile = () => {
         <button onClick={() => {goToNextPage('home')}}>Go to Authorized Home</button>
         <h1>{userName}</h1>
         <p>{userEmail}</p>
-        {imagesDisplay}
+        {imagesDisplay ? imagesDisplay : 'There are no images here'}
       </div>
     </LoginVerifier>  
   )

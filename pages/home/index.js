@@ -4,7 +4,7 @@ import LoginVerifier from '../../components/login-verifier/login-verifier';
 import { userLogOut } from '../../services/database/auth-services';
 import ProfileButton from '../../components/ui/profile-button';
 import ImageTile from '../../components/image-tile/image-tile';
-import { retrieveImagesFromImages } from '../../services/database/image-services';
+import { retrieveHomePageImages } from '../../services/database/image-services';
 import { goToNextPage } from '../../services/routing/redirect-service';
 import { loadUser } from '../../services/database/user-services';
 
@@ -15,7 +15,6 @@ const Home = () => {
 
   useEffect(()=> {
     if(images){
-      console.log('imagedisplay')
       setImagesDisplay(
         images.map((image) => 
           <ImageTile image={image}>
@@ -33,8 +32,7 @@ const Home = () => {
 
   useEffect(() => {
     if(userData){
-      console.log('retrieveImages');
-      retrieveImagesFromImages();
+      retrieveHomePageImages();
     }
   },[userData])
 
@@ -45,7 +43,7 @@ const Home = () => {
       </div>
       <button onClick={userLogOut}>Logout</button>
       <ProfileButton/>
-      {imagesDisplay}
+      {imagesDisplay !== [] ? imagesDisplay : 'There are no images here'}
     </LoginVerifier>
   )
 }

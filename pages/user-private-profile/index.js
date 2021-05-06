@@ -19,15 +19,15 @@ const UserPrivateProfile = () => {
 
   useEffect(()=> {
     if(images){
-      console.log('imagedisplay')
       setImagesDisplay(
-        images.map((image, index) => 
+        images.map((image, index) => (
           <ImageTile image={image}>
+            <div>Public Access: {image ? image.publicAccess.toString() : <div></div>}</div>
             <button onClick={() => removeImageFromUser(userData.id, image.id, index)}>
               Remove
             </button>
           </ImageTile>
-        )
+        ))
       );
     }
   }, [images])
@@ -36,7 +36,6 @@ const UserPrivateProfile = () => {
     if(userData){
       setUserName(userData.name);
       setUserEmail(userData.email);
-      console.log('retrieveImages');
       retrieveImagesFromUser(userData.id);
     }
   },[userData])
@@ -64,7 +63,7 @@ const UserPrivateProfile = () => {
           <input type="text" value={imageTitle} onChange={text => setImageTitle(text.target.value)}/>
         </form>
         <input type="file" onChange={handleFileInput}/>
-        {imagesDisplay}
+        {imagesDisplay !== [] ? imagesDisplay : 'There are no images here'}
       </div>
     </LoginVerifier>  
   )

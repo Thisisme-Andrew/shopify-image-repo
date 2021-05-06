@@ -1,4 +1,3 @@
-import { useSelector } from 'react-redux';
 import firebase from '../../config/firebase/firebase';
 import uniqid from 'uniqid';
 import Image from '../../models/back-end-models/image';
@@ -9,6 +8,7 @@ import {
   removeImage, 
   addImage 
 } from '../../redux/fetch-images/actions';
+import { MAX_IMAGES_PER_PAGE } from './constants';
 
 export const uploadImage = (file, title, userId, publicAccess) => {
   const id = uniqid();
@@ -34,19 +34,43 @@ export const uploadImage = (file, title, userId, publicAccess) => {
 }
 
 export const getImage = (imageId, imageIndex) => {
-  firebase.database().ref('images/' + imageId).once('value').then(snapshot => {
-    const data = snapshot.val();
-    store.dispatch(imageFetched(data, imageIndex));
-    console.log('itshappening again')
-  })
+  firebase.database().ref('images/' + imageId)
+    .once('value')
+    .then(snapshot => {
+      const data = snapshot.val();
+      console.log('data here is:', data)
+      store.dispatch(imageFetched(data, imageIndex));
+    })
 }
 
 export const getImagesFromIdList = (idList) => {
   const numImages = idList.length;
-  console.log('getimagesfromIdlist');
+  
   store.dispatch(fetchingImages(numImages));
   for(let i = 0; i < numImages; i++){
     getImage(idList[i], i);
+  }
+}
+
+export const getPublicImage = (imageId, imageIndex) => {
+  console.log('this is the current image Id', imageId)
+  firebase.database().ref('images/' + imageId)
+    .orderByChild('publicAccess')
+    .equalTo(true)
+    .once('value')
+    .then(snapshot => {
+      const data = snapshot.val();
+      console.log('data here is:', data, imageIndex)
+      store.dispatch(imageFetched(data, imageIndex));
+    })
+}
+
+export const getPublicImagesFromIdList = (idList) => {
+  const numImages = idList.length;
+  
+  store.dispatch(fetchingImages(numImages));
+  for(let i = 0; i < numImages; i++){
+    getPublicImage(idList[i], i);
   }
 }
 
@@ -56,14 +80,22 @@ export const deleteImage = (imageId, imageIndex) => {
   store.dispatch(removeImage(imageIndex));
 }
 
-export const retrieveImagesFromImages = () => {
-  console.log('retreiveingimagesfromImages');
+export const retrieveHomePageImages = () => {
+  const numImagesToDisplay = MAX_IMAGES_PER_PAGE;
+
   firebase.database().ref('images/')
-    .once('value').then( snapshot => {
+    .orderByChild('publicAccess')
+    .equalTo(true)
+    .limitToLast(numImagesToDisplay)
+    .once('value')
+    .then(snapshot => {
       const data = snapshot.val();
-      console.log('data is',data);
-      const imageIds = data ? Object.keys(data) : [];
-      getImagesFromIdList(imageIds);
+      const images = Object.values(data);
+      store.dispatch(fetchingImages(images.length));
+
+      for(let i = 0; i < images.length; i++) {
+        store.dispatch(imageFetched(images[i], i));
+      }
     })
 }
 

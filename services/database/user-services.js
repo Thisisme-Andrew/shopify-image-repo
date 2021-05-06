@@ -1,11 +1,12 @@
 import firebase from '../../config/firebase/firebase';
-import { fetchingUserData, fetchingUserDataSuccess, fetchingUserDataFailed } from '../../redux/fetch-user-data/actions';
+import { fetchingUserData, fetchingUserDataSuccess } from '../../redux/fetch-user-data/actions';
 import { fetchingImages } from '../../redux/fetch-images/actions';
 import { IMAGES_PATH, USER_PATH } from './constants';
 import { store } from '../../redux/store';
 import User from '../../models/back-end-models/user';
-import { getImagesFromIdList, deleteImage } from './image-services';
+import { getImagesFromIdList, getPublicImagesFromIdList, deleteImage } from './image-services';
 import PersonalInfo from '../../models/back-end-models/personal-info';
+import { MAX_IMAGES_PER_PAGE } from './constants';
 
 export const loadUser = (userId) => {
   store.dispatch(fetchingUserData());
@@ -33,11 +34,14 @@ export const addUserIfNew = (userId, name, email) => {
 
 export const addUser = (userData) => {
   const id = userData.id;
-  firebase.database().ref(USER_PATH + id).set(userData);
+  firebase.database().ref(USER_PATH + id)
+    .set(userData);
 }
 
 export const removeImageFromUser = (userId, imageId, imageIndex) => {
-  firebase.database().ref(USER_PATH + userId + '/' + IMAGES_PATH).orderByValue().equalTo(imageId)
+  firebase.database().ref(USER_PATH + userId + '/' + IMAGES_PATH)
+    .orderByValue()
+    .equalTo(imageId)
     .on('child_added', snapshot => {
       const imageID = snapshot.val();
       console.log('snapshot')
@@ -49,9 +53,25 @@ export const removeImageFromUser = (userId, imageId, imageIndex) => {
 export const retrieveImagesFromUser = (userId) => {
   console.log('retreiveingimagesfromuser');
   firebase.database().ref(USER_PATH + userId + '/' + IMAGES_PATH)
-    .once('value').then( snapshot => {
+    .once('value')
+    .then( snapshot => {
       const data = snapshot.val();
       const imageIds = data ? Object.values(data) : [];
       getImagesFromIdList(imageIds);
+    })
+}
+
+export const retrievePublicImagesFromUser = (userId) => {
+  const numImagesToDisplay = MAX_IMAGES_PER_PAGE;
+
+  firebase.database().ref(USER_PATH + userId + '/' + IMAGES_PATH)
+    .limitToLast(numImagesToDisplay)
+    .once('value')
+    .then(snapshot => {
+      const data = snapshot.val();
+      const images = Object.values(data);
+      console.log('array of imageid', images)
+
+      getPublicImagesFromIdList(images)
     })
 }
