@@ -30,7 +30,6 @@ const UserPublicProfile = () => {
 
   useEffect(()=> {
     if(images){
-      console.log('images hereis: ', images);
       setImagesDisplay(
         images.map(image => {
           if(image){

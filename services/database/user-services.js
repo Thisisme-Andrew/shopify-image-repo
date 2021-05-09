@@ -1,6 +1,5 @@
 import firebase from '../../config/firebase/firebase';
 import { fetchingUserData, fetchingUserDataSuccess } from '../../redux/fetch-user-data/actions';
-import { fetchingImages } from '../../redux/fetch-images/actions';
 import { IMAGES_PATH, USER_PATH } from './constants';
 import { store } from '../../redux/store';
 import User from '../../models/back-end-models/user';
@@ -12,7 +11,6 @@ export const loadUser = (userId) => {
   store.dispatch(fetchingUserData());
   firebase.database().ref(USER_PATH + userId).once("value").then( snapshot => {
     const data = snapshot.val();
-    console.log('user data is',data);
     store.dispatch(fetchingUserDataSuccess(data));
   })
 }
@@ -44,14 +42,12 @@ export const removeImageFromUser = (userId, imageId, imageIndex) => {
     .equalTo(imageId)
     .on('child_added', snapshot => {
       const imageID = snapshot.val();
-      console.log('snapshot')
       snapshot.ref.remove();
       deleteImage(imageId, imageIndex);
   });
 }
 
 export const retrieveImagesFromUser = (userId) => {
-  console.log('retreiveingimagesfromuser');
   firebase.database().ref(USER_PATH + userId + '/' + IMAGES_PATH)
     .once('value')
     .then( snapshot => {
@@ -70,7 +66,6 @@ export const retrievePublicImagesFromUser = (userId) => {
     .then(snapshot => {
       const data = snapshot.val();
       const images = Object.values(data);
-      console.log('array of imageid', images)
 
       getPublicImagesFromIdList(images)
     })

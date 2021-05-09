@@ -1,5 +1,4 @@
-  
-class ServiceAccessError extends Error {
+  class ServiceAccessError extends Error {
   constructor(message) {
     super(message);
     this.name = "ServiceAccessError";

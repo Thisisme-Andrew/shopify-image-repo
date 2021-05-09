@@ -6,7 +6,6 @@ const imagesInitialState = {
 };
 
 export default function reducer(state = imagesInitialState, action) {
-  console.log(action);
 
   switch(action.type) {
     case fetchImagesActionTypes.FETCHING_IMAGES: {
@@ -25,7 +24,6 @@ export default function reducer(state = imagesInitialState, action) {
       }else {
         imagesCopy[action.imageIndex] = action.image;
       }
-      console.log('READTHIS', imagesCopy);
 
       return {
         ...state,

@@ -16,7 +16,6 @@ export default function reducer(state = fetchUserDataInitialState, action) {
     }
 
     case fetchUserDataActionTypes.FETCHING_USER_DATA_SUCCESS: {
-      console.log('is user being stored?', action.user);
       return {
         ...state,
         isFetchingUserData: false,

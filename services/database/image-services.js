@@ -26,11 +26,6 @@ export const uploadImage = (file, title, userId, publicAccess) => {
           url: downloadUrl,
           dateAdded: Date.now()
         })
-        // if(publicAccess){
-        //   firebase.database().ref('users/' + userId + '/publicImages').push().set(id);  
-        // }else {
-        //   firebase.database().ref('users/' + userId + '/privateImages').push().set(id);
-        // }
         firebase.database().ref('users/' + userId + '/images').push().set(id);
         firebase.database().ref('images/' + id).set(newImage);
         store.dispatch(addImage(newImage));
@@ -43,7 +38,6 @@ export const getImage = (imageId, imageIndex) => {
     .once('value')
     .then(snapshot => {
       const data = snapshot.val();
-      console.log('data here is:', data)
       store.dispatch(imageFetched(data, imageIndex));
     })
 }
@@ -58,16 +52,12 @@ export const getImagesFromIdList = (idList) => {
 }
 
 export const getPublicImage = (imageId, imageIndex) => {
-  console.log('this is the current image Id', imageId)
   firebase.database().ref('images/')
     .orderByChild('publicAccess')
     .equalTo(true)
     .once('value')
     .then(snapshot => {
-      // right now issue is that this query is getting all images that are true when we just want to check if the one id we 
-      // have with the child public access is equal to true
       const data = snapshot.val();
-      console.log('data here is:', data, imageIndex)
       store.dispatch(imageFetched(data, imageIndex));
     })
 }
@@ -105,5 +95,3 @@ export const retrieveHomePageImages = () => {
       }
     })
 }
-
-/////perhaps error handling
