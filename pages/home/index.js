@@ -7,7 +7,6 @@ import ProfileButton from '../../components/ui/profile-button';
 import ImageTile from '../../components/image-tile/image-tile';
 import { retrieveHomePageImages } from '../../services/database/image-services';
 import { goToNextPage } from '../../services/routing/redirect-service';
-import { loadUser } from '../../services/database/user-services';
 
 const Home = () => {
   const images = useSelector(state => state.fetchImages.images);
@@ -20,8 +19,7 @@ const Home = () => {
         images.map((image) => 
           <ImageTile image={image}>
             <button onClick={() => {
-              goToNextPage('user-public-profile');
-              loadUser(image.userId);
+              goToNextPage('user-public-profile', { userId: image.userId });
             }}>
               Go to AuthorPage
             </button>

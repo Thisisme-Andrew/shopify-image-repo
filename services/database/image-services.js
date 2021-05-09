@@ -77,7 +77,7 @@ export const getPublicImagesFromIdList = (idList) => {
   
   store.dispatch(fetchingImages(numImages));
   for(let i = 0; i < numImages; i++){
-    getPublicImage(idList[i], i);
+    getImage(idList[i], i);
   }
 }
 

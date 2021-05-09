@@ -23,10 +23,10 @@ const UserPrivateProfile = () => {
 
   useEffect(()=> {
     if(images){
+      setPageMessage('Image Uploaded');
       setImagesDisplay(
         images.map((image, index) => (
           <ImageTile image={image}>
-            <div>Public Access: {image ? image.publicAccess.toString() : <div></div>}</div>
             <button onClick={() => removeImageFromUser(userData.id, image.id, index)}>
               Remove
             </button>
@@ -52,7 +52,7 @@ const UserPrivateProfile = () => {
   const imageUploader = () => {
     if(imageTitle && imageFile){
       uploadImage(imageFile, imageTitle, userData.id, imagePublicAccess) 
-      setPageMessage('Image Uploaded');
+      setPageMessage('Uploading...');
     }else {
       setPageMessage(missingInfoFinder(imageTitle, imageFile))
     }

@@ -5,14 +5,21 @@ import { useSelector } from 'react-redux';
 import { retrievePublicImagesFromUser } from '../../services/database/user-services';
 import ImageTile from '../../components/image-tile/image-tile';
 import { goToNextPage } from '../../services/routing/redirect-service';
+import { useRouter } from 'next/router'
+import { loadUser } from '../../services/database/user-services';
 
 const UserPublicProfile = () => {
+  const router = useRouter();
+  const userId = router.query.userId;
+
   const [userName, setUserName] = useState();
   const [userEmail, setUserEmail] = useState(null);
   const [imagesDisplay, setImagesDisplay] = useState();
   const images = useSelector(state => state.fetchImages.images);
   const userData = useSelector(state => state.fetchUserData.user);
-
+  if(!userData) {
+    loadUser(userId);
+  }
   useEffect(() => {
     if(userData){
       setUserName(userData.personalInfo.name);

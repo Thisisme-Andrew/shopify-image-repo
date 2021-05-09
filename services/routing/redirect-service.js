@@ -9,9 +9,12 @@ export const goToAuthorizedLandingPage = () => {
   Router.push(HOME);
 }
 
-export const goToNextPage = (pageName) => {
+export const goToNextPage = (pageName, query = null) => {
   try {
-    Router.push(pageName)
+    Router.push({
+      pathname: pageName,
+      query: query,
+  })
   } catch(error) {
     Router.push(ACCESS_DENIED);
   }
