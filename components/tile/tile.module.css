@@ -1,0 +1,20 @@
+.button {
+  display:inline-block;
+  padding:0.35em 1.2em;
+  border: none;
+  box-sizing: border-box;
+  text-decoration:none;
+  font-family:'Roboto',sans-serif;
+  font-weight:300;
+  font-size: 20px;
+  color:#FFFFFF;
+  background-color: #96bf48;
+  text-align:center;
+  transition: all 0.2s;
+}
+.button:hover {
+  color: #000000;
+  background-color:#FFFFFF;
+  cursor: pointer;
+}
+

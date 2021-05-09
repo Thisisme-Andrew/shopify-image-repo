@@ -6,8 +6,7 @@ import { uploadImage } from '../../services/database/image-services';
 import { retrieveImagesFromUser } from '../../services/database/user-services';
 import ImageTile from '../../components/image-tile/image-tile';
 import { removeImageFromUser } from '../../services/database/user-services';
-import { goToNextPage } from '../../services/routing/redirect-service';
-import InfiniteScroll from 'react-infinite-scroller';
+import TopBar from '../../components/top-bar/top-bar';
 
 const UserPrivateProfile = () => {
   const images = useSelector(state => state.fetchImages.images);
@@ -19,7 +18,6 @@ const UserPrivateProfile = () => {
   const [userEmail, setUserEmail] = useState();
   const [imageFile, setImageFile] = useState();
   const [pageMessage, setPageMessage] = useState();
-  var items = [];
 
   useEffect(()=> {
     if(images){
@@ -72,9 +70,8 @@ const UserPrivateProfile = () => {
 
   return(
     <LoginVerifier>
+      <TopBar/>
       <div>
-        This is the users profile that should contain title, desciprtion, social tag, images and collections
-        <button onClick={() => {goToNextPage('home')}}>Go to Authorized Home</button>
         <h1>{userName}</h1>
         <p>{userEmail}</p>
         <div>{pageMessage}</div>
@@ -89,18 +86,9 @@ const UserPrivateProfile = () => {
           </button>
           <button onClick={imageUploader}>Upload Image</button>
         </div>
-        {/* <InfiniteScroll
-            pageStart={0}
-            loadMore={() => setPageMessage('loading more images')}
-            // hasMore={true || false}
-            loader={<div className="loader" key={0}>Loading ...</div>}
-            useWindow={false}
-        > */}
         <div className={styles.imageDisplay}>
           {imagesDisplay !== [] ? imagesDisplay : 'There are no images here'}
         </div>
-        {/* </InfiniteScroll> */}
-        {/* {imagesDisplay !== [] ? imagesDisplay : 'There are no images here'} */}
       </div>
     </LoginVerifier>  
   )

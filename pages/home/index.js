@@ -2,11 +2,10 @@ import styles from './index.module.css';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import LoginVerifier from '../../components/login-verifier/login-verifier';
-import { userLogOut } from '../../services/database/auth-services';
-import ProfileButton from '../../components/ui/profile-button';
 import ImageTile from '../../components/image-tile/image-tile';
 import { retrieveHomePageImages } from '../../services/database/image-services';
 import { goToNextPage } from '../../services/routing/redirect-service';
+import TopBar from '../../components/top-bar/top-bar';
 
 const Home = () => {
   const images = useSelector(state => state.fetchImages.images);
@@ -37,11 +36,10 @@ const Home = () => {
 
   return (
     <LoginVerifier>
+      <TopBar/>
       <div>
-        something here
+        <h1>Home</h1>
       </div>
-      <button onClick={userLogOut}>Logout</button>
-      <ProfileButton/>
       <div className={styles.imagesDisplay}>
         {imagesDisplay !== [] ? imagesDisplay : 'There are no images here'}
       </div>

@@ -4,9 +4,9 @@ import LoginVerifier from '../../components/login-verifier/login-verifier';
 import { useSelector } from 'react-redux';
 import { retrievePublicImagesFromUser } from '../../services/database/user-services';
 import ImageTile from '../../components/image-tile/image-tile';
-import { goToNextPage } from '../../services/routing/redirect-service';
 import { useRouter } from 'next/router'
 import { loadUser } from '../../services/database/user-services';
+import TopBar from '../../components/top-bar/top-bar';
 
 const UserPublicProfile = () => {
   const router = useRouter();
@@ -44,10 +44,8 @@ const UserPublicProfile = () => {
 
   return(
     <LoginVerifier>
+      <TopBar/>
       <div>
-        This is the users profile that should contain title, desciprtion, social tag, images and collections
-        <div></div>
-        <button onClick={() => {goToNextPage('home')}}>Go to Authorized Home</button>
         <h1>{userName}</h1>
         <p>{userEmail}</p>
         <div className={styles.imagesDisplay}>
