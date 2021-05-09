@@ -1,0 +1,5 @@
+.imageDisplay {
+  display: flex;
+  flex-direction: row;
+  overflow-y: visible;
+}

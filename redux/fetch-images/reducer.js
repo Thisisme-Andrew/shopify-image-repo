@@ -25,6 +25,7 @@ export default function reducer(state = imagesInitialState, action) {
       }else {
         imagesCopy[action.imageIndex] = action.image;
       }
+      console.log('READTHIS', imagesCopy);
 
       return {
         ...state,
@@ -34,17 +35,19 @@ export default function reducer(state = imagesInitialState, action) {
 
     case fetchImagesActionTypes.IMAGE_FETCH_FAILED: {
       let errorsCopy = [...state.errors];
-      errorsCopy[action.imageIndex] = action.errors;
+      errorsCopy[action.imageIndex] = action.error;
 
       return {
         ...state,
-        error: errorsCopy
+        errors: errorsCopy
       };
     }
 
     case fetchImagesActionTypes.REMOVE_IMAGE: {
       let imagesCopy = [...state.images];
       imagesCopy.splice(action.imageIndex, 1);
+      let errorsCopy = [...state.errors];
+      errorsCopy.splice(action.imageIndex, 1);
 
       return {
         ...state,

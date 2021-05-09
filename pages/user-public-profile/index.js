@@ -1,3 +1,4 @@
+import styles from './index.module.css';
 import { useEffect, useState } from 'react';
 import LoginVerifier from '../../components/login-verifier/login-verifier';
 import { useSelector } from 'react-redux';
@@ -42,7 +43,9 @@ const UserPublicProfile = () => {
         <button onClick={() => {goToNextPage('home')}}>Go to Authorized Home</button>
         <h1>{userName}</h1>
         <p>{userEmail}</p>
-        {imagesDisplay ? imagesDisplay : 'There are no images here'}
+        <div className={styles.imagesDisplay}>
+          {imagesDisplay ? imagesDisplay : 'There are no images here'}
+        </div>
       </div>
     </LoginVerifier>  
   )

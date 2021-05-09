@@ -1,3 +1,4 @@
+import styles from './index.module.css';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import LoginVerifier from '../../components/login-verifier/login-verifier';
@@ -43,7 +44,9 @@ const Home = () => {
       </div>
       <button onClick={userLogOut}>Logout</button>
       <ProfileButton/>
-      {imagesDisplay !== [] ? imagesDisplay : 'There are no images here'}
+      <div className={styles.imagesDisplay}>
+        {imagesDisplay !== [] ? imagesDisplay : 'There are no images here'}
+      </div>
     </LoginVerifier>
   )
 }
