@@ -1,4 +1,12 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Before Getting Started
+
+There is a txt file in the root of this project called database-plan.txt that outlines the design of my back end. You will notice in this file that there is 2 seperate places data is being stored, one called Storage and another called Real Time. These is the 2 different places I have used to store with the use of Google's Firebase services. Documentation here:
+
+Storage:
+https://firebase.google.com/docs/storage
+
+Real Time:
+https://firebase.google.com/docs/database
 
 ## Getting Started
 
@@ -12,23 +20,29 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+You can start using the image repo demo by hard coding the API key into the firebase.js file in config > firebase > firebase.js as such:
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+const firebaseConfig = {
+apiKey: "AIzaSyDZhqFmt3F6LByqIPScBXsSRgoOOUUB1m8"
+.....
+.....
+}
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+** Note please use same Api key above as it is directly linked to my database.
 
-## Learn More
+## Usage Instructions
 
-To learn more about Next.js, take a look at the following resources:
+Upon opening http://localhost:3000 in your browser, the first page you will see is a login page. Here you will be able to log in with a Google account into the app. 
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+After logging in, you will be brought to the Home page where all images of all images are being stored. This is where you can also navigate to logout (which will not allow you see users information anymore), go to your personal profile or visit another users page. 
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+If you navigate to your personal profile, then you will see options to upload an image with 3 types of information required. You will need to upload a file, put in a title for the image as well as choose if the image is public (by default false) then press upload. After the image is uploaded you will see it appear onto your screen. Here you will also notice an option to remove images under each image as well.
 
-## Deploy on Vercel
+If you native to another user's profile you will see their name, email and photos that they uploaded without the options to remove or add.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Notes
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+You may have noticed that there is an extreme lack of test files. Unfortunetly during the last few days as I was preparing to do these files I have become extremely ill and am currently waiting to hear from my covid results. I apologize for this, and would love to upload this as a second commit if possible. 
+
+If you have any questions feel free to email me at andy.tang@shopify.com
+
