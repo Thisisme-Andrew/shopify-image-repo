@@ -44,5 +44,5 @@ If you native to another user's profile you will see their name, email and photo
 
 You may have noticed that there is an extreme lack of test files. Unfortunetly during the last few days as I was preparing to do these files I have become extremely ill and am currently waiting to hear from my covid results. I apologize for this, and would love to upload this as a second commit if possible. 
 
-If you have any questions feel free to email me at andy.tang@shopify.com
+If you have any questions feel free to email me at andy.tangg4@gmail.com.
 
